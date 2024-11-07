@@ -79,9 +79,77 @@ public class user {
             ps.setInt(5, user_status);
             ps.executeUpdate();
             ps.close();
-            JOptionPane.showMessageDialog(null,"berhasil di tambahkan");
+            JOptionPane.showMessageDialog(null,"User berhasil di tambahkan");
         } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null,"gagal di tambahkan");
+            JOptionPane.showMessageDialog(null,"User gagal di tambahkan");
         }
+    }
+    public ResultSet tampilUser(){
+        query = "SELECT * FROM user";
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+            return rs;
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null,"Data gagal di tampilkan");
+        }
+        
+        return rs;
+    }
+    public void ubahUser(){
+        if (user_password.equals("")){
+            
+            query = "UPDATE user SET user_email = ?,"
+                    + "user_fullname = ?,"
+                    + "user_status = ?"
+                    + "WHERE user_email = ?";
+            try {
+            ps = konek.prepareStatement(query);
+            ps.setString(1, user_name);
+            ps.setString(2, user_email);
+            ps.setString(3, user_password);
+            ps.setString(4, user_fullname);
+            ps.setInt(5, user_status);
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null,"User berhasil di ubah");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null,"User gagal di ubah");
+        }
+       }else{
+            query = "UPDATE user SET user_email = ?,"
+                    + "user_fullname = ?,"
+                    + "user_status = ?"
+                    + "user_password = MD5(?)"
+                    + "WHERE user_email = ?";
+            try {
+            ps = konek.prepareStatement(query);
+            ps.setString(1, user_name);
+            ps.setString(2, user_email);
+            ps.setString(3, user_password);
+            ps.setString(4, user_fullname);
+            ps.setInt(5, user_status);
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null,"User berhasil di ubah");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null,"User gagal di ubah");
+        }
+            }
+    }
+    public void hapusUser(){
+        try {
+            query = "DELETE FROM user WHEREE user_Name = ?";
+            ps = konek.prepareStatement(query);
+
+            ps.setString(1, user_name);
+
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "User berhasil di hapus");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "User gagal di hapus");
+        }
+        
     }
 }
